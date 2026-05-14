@@ -1,0 +1,79 @@
+// ========== 1. КНОПКА "ЧИТАТЬ ДАЛЕЕ" ==========
+// Показывает/скрывает дополнительный текст
+
+const readMoreBtn = document.getElementById('readMoreBtn');
+const extraText = document.getElementById('extraText');
+
+let isExpanded = false; // переменная для отслеживания состояния
+
+readMoreBtn.addEventListener('click', function() {
+    if (isExpanded) {
+        extraText.style.display = 'none';
+        readMoreBtn.textContent = '📖 Читать далее';
+        isExpanded = false;
+    } else {
+        extraText.style.display = 'block';
+        readMoreBtn.textContent = '📖 Свернуть';
+        isExpanded = true;
+    }
+});
+
+// ========== 2. СЧЁТЧИК ЛАЙКОВ (сохраняется в localStorage) ==========
+
+const likeBtn = document.getElementById('likeBtn');
+const likeCountSpan = document.getElementById('likeCount');
+
+// Загружаем сохранённое количество лайков (если есть)
+let likeCount = localStorage.getItem('portfolioLikes');
+if (likeCount === null) {
+    likeCount = 0;
+} else {
+    likeCount = Number(likeCount);
+}
+likeCountSpan.textContent = likeCount;
+
+// Обработчик нажатия на лайк
+likeBtn.addEventListener('click', function() {
+    likeCount++;
+    likeCountSpan.textContent = likeCount;
+    localStorage.setItem('portfolioLikes', likeCount);
+    
+    // Анимация кнопки
+    likeBtn.style.transform = 'scale(1.2)';
+    setTimeout(() => {
+        likeBtn.style.transform = 'scale(1)';
+    }, 200);
+});
+
+// ========== 3. ПРИВЕТСТВИЕ В КОНСОЛИ (для проверки работы JS) ==========
+
+console.log('🚀 Сайт-портфолио Эдуарда загружен!');
+console.log('💡 Попробуй нажать на кнопки или на навыки в списке');
+
+// ========== 4. КЛИК ПО НАВЫКАМ (выводит сообщение) ==========
+
+const skillItems = document.querySelectorAll('.skills-list li');
+
+skillItems.forEach(function(skill) {
+    skill.addEventListener('click', function() {
+        const skillName = this.textContent;
+        alert(`🔧 Ты кликнул по навыку: ${skillName}! Молодец, продолжай развиваться!`);
+    });
+});
+
+// ========== 5. КЛИК ПО КАРТОЧКАМ ПРОЕКТОВ ==========
+
+const projectCards = document.querySelectorAll('.project-card');
+
+projectCards.forEach(function(card) {
+    card.addEventListener('click', function() {
+        const projectName = this.querySelector('h4').textContent;
+        alert(`🌟 Проект "${projectName}" скоро будет готов! Следи за обновлениями.`);
+    });
+});
+
+// ========== 6. ПРИВЕТСТВИЕ ПРИ ЗАГРУЗКЕ СТРАНИЦЫ (опционально) ==========
+
+window.addEventListener('load', function() {
+    console.log('✅ Страница полностью загружена! Добро пожаловать в портфолио Эдуарда.');
+});
